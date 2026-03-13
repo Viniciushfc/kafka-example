@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface IProductRepository extends JpaRepository<Product, UUID> {
 
-    @Query(value = "SELECT p.id FROM product p", nativeQuery = true)
+    @Query("SELECT p.id FROM Product p")
     List<UUID> findAllIds();
 
 }
