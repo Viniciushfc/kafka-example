@@ -10,6 +10,7 @@ import com.github.viniciushfc.kafka_example_producer.application.repository.IOrd
 import com.github.viniciushfc.kafka_example_producer.application.service.contract.IOrderService;
 import com.github.viniciushfc.kafka_example_producer.application.service.contract.IProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class OrderServiceImpl implements IOrderService {
 
     private final IOrderRepository orderRepository;
     private final IProductService iProductService;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
     public List<OrderRecordDTO> findAllOrders() {
@@ -31,7 +33,9 @@ public class OrderServiceImpl implements IOrderService {
         ProductRecordDTO productRecordDTO = iProductService.findById(dto.idProduct());
 
         Order order = OrderMapper.toEntity(productRecordDTO, EnumStatus.AGUARDANDO_PAGAMENTO);
+        OrderRecordDTO orderSavedDTO = OrderMapper.toDTO(orderRepository.save(order));
+        kafkaTemplate.send("pedidos-topic", orderSavedDTO);
 
-        return OrderMapper.toDTO(orderRepository.save(order));
+        return orderSavedDTO;
     }
 }
