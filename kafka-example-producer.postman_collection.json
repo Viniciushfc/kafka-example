@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "kafka-example-producer",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "http://localhost:8082/producer/product", "host": ["localhost"], "port": "8082", "path": ["producer", "product"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Produto Exemplo\",\n  \"quatity\": 10,\n  \"price\": 49.90\n}"
+            }
+          }
+        },
+        {
+          "name": "Find Product By Id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/producer/product/:idProduct", "host": ["localhost"], "port": "8082", "path": ["producer", "product", ":idProduct"], "variable": [{ "key": "idProduct", "value": "seu-uuid-aqui" }] }
+          }
+        },
+        {
+          "name": "Find Random Product",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/producer/product/random", "host": ["localhost"], "port": "8082", "path": ["producer", "product", "random"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "http://localhost:8082/producer/order", "host": ["localhost"], "port": "8082", "path": ["producer", "order"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idProduct\": \"seu-uuid-aqui\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Find All Orders",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8082/producer/order", "host": ["localhost"], "port": "8082", "path": ["producer", "order"] }
+          }
+        }
+      ]
+    }
+  ]
+}
